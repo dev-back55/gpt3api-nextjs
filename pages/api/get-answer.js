@@ -6,19 +6,20 @@ const openai = new OpenAIApi(configuration)
 
 export default async function handler(req, res) {
   try {
-
+    
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: req.body.prompt,
       temperature: 0,
       presence_penalty: 0,
       frequency_penalty: 0,
-      max_tokens: 1000
+      max_tokens: 200
     })
 
     console.log(response.data.choices[0].text)
     res.status(200).json({ text: response.data.choices[0].text })
   }catch(error) {
-    res.status(405).json({ text: error })
+    console.log(error)
+    res.status(400).json({ text: error })
   }
 }
