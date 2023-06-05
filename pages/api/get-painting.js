@@ -5,7 +5,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration)
 
 export default async function handler(req, res) {
-  if (typeof req.body.prompt === "string") {
+  try {
     const response = await openai.createImage({
       prompt: req.body.prompt,
       n: 1,
@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     })
 
     res.status(200).json({ text: response.data.data[0].url })
-  } else {
-    res.status(400).json({ text: "Parece que hubo un error" })
+  } catch(error) {
+    res.status(400).json({ text: error })
   }
 }

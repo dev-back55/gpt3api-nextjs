@@ -5,7 +5,8 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration)
 
 export default async function handler(req, res) {
-  if (typeof req.body.prompt === "string") {
+  try {
+
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: req.body.prompt,
@@ -15,8 +16,9 @@ export default async function handler(req, res) {
       max_tokens: 1000
     })
 
+    console.log(response.data.choices[0].text)
     res.status(200).json({ text: response.data.choices[0].text })
-  } else {
-    res.status(405).json({ text: "Ingresaste un prompt invalido." })
+  }catch(error) {
+    res.status(405).json({ text: error })
   }
 }
