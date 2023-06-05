@@ -10,11 +10,13 @@ export default async function handler(req, res) {
       model: "text-davinci-003",
       prompt: req.body.prompt,
       temperature: 0,
+      presence_penalty: 0,
+      frequency_penalty: 0,
       max_tokens: 1000
     })
 
     res.status(200).json({ text: response.data.choices[0].text })
   } else {
-    res.status(200).json({ text: "Ingresaste un prompt invalido." })
+    res.status(405).json({ text: "Ingresaste un prompt invalido." })
   }
 }
